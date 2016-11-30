@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.start {
+  padding: 40px 15px;
+  text-align: center;
+}

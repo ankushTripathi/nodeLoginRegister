@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  link(href='/stylesheets/form.css' , rel='stylesheet')
+  - var page = title
+  if page === "Login"
+      .container
+          form(method='post',action='/users/login').form-signin
+            h2.form-signin-heading Please sign in
+            label.sr-only(for='inputEmail') Email address
+            input#inputEmail.form-control(type='email', name='email' placeholder='Email address', required='', autofocus='')
+            label.sr-only(for='inputPassword') Password
+            input#inputPassword.form-control(type='password', name='password' placeholder='Password', required='')
+            .checkbox
+              label
+                input(type='checkbox', value='remember-me')
+                |  Remember me
+            button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+            p(class='lead' style="text-align:center;") 
+              a(href='/users/register') Create Account
+  else if page == "Register"
+    .container
+            form(method='post',action='/users/register',enctype='multipart/form-data').form-signin
+              h2.form-signin-heading Register
+              input.form-control(type='text' , name='name' , placeholder='User Name' , required='')
+              label Select a Profile Image
+              input.form-control(type='file' name='profileImage')
+              br
+              label.sr-only(for='inputEmail') Email address
+              input#inputEmail.form-control(type='email', name='email' placeholder='Email address', required='', autofocus='') 
+              br
+              label.sr-only(for='inputPassword') Password
+              input#inputPassword.form-control(type='password', name='password1' placeholder='Password', required='')
+              label.sr-only(for='inputPassword') Confirm Password
+              input#inputPassword.form-control(type='password', name='Password2' placeholder='Confirm Password', required='')
+              button.btn.btn-lg.btn-primary.btn-block(type='submit') Register Now
