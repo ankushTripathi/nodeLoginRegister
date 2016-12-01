@@ -20,14 +20,45 @@ var userSchema = new mongoose.Schema({
 var User = module.exports = mongoose.model('User',userSchema);
 
 module.exports.createUser = function(newUser,callback) {
-	bcrypt.hash(newUser.password,10,function(err,hash){
+
+	User.findOne({$or:[{username:newUser.username},{email:newUser.email}]},function(err,user){
+
 		if(err)
 			throw err;
 		else{
-			newUser.password = hash;
-			newUser.save(callback);
-		}
+			if(!user){
+				
+				bcrypt.hash(newUser.password,10,function(err,hash){
+				if(err)
+					throw err;
+				else{
+					newUser.password = hash;
+					newUser.save(callback);
+				}
 
-	});
+			});
+		}
+		else{
+			callback("user exists",null);
+		}
+	}
+
+});	
 }
 
+module.exports.getByEmail = function(email,callback){
+	User.findOne({email:email},callback);
+}
+
+
+module.exports.getById = function(id,callback){
+	User.findById(id,callback);
+}
+
+module.exports.comparePassword = function(inputPassword,hash,callback){
+	bcrypt.compare(inputPassword,hash,function(err,isMatch){
+		if(err)
+			return callback(err);
+		return callback(null,isMatch);
+	});
+}
