@@ -47,12 +47,12 @@ module.exports.createUser = function(newUser,callback) {
 }
 
 module.exports.getByEmail = function(email,callback){
-	User.findOne({email:email},callback);
+	User.findOne({email:email},'password',callback);
 }
 
 
 module.exports.getById = function(id,callback){
-	User.findById(id,callback);
+	User.findById(id,'username email',callback);
 }
 
 module.exports.comparePassword = function(inputPassword,hash,callback){

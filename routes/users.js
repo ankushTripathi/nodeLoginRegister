@@ -5,8 +5,30 @@ var User = require('../models/user');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+
+router.use(function UserState(req,res,next){
+  if(req.isAuthenticated()){
+  	if(req.path === '/'||req.path === '/logout')
+  		next();
+  	else
+  		res.redirect('/');
+  }
+  else
+  	{
+  	if(req.path === '/'||req.path === '/logout')
+  	{
+  		req.flash('error','you are not logged in');
+  		res.redirect('/');
+  	}
+  	else
+  		next();
+	}
+});
+
+router.get('/',function(req, res, next) {
+
+	res.end("hello User");
+
 });
 
 router.get('/register',function(req,res,next){
@@ -38,8 +60,8 @@ passport.use(new localStrategy(
 		usernameField : "email",
 		passwordField : "password"
 	},
-	function(username,password,done){
-	User.getByEmail(username,function(err,user){
+	function(email,password,done){
+	User.getByEmail(email,function(err,user){
 		if(err)
 			return done(err);
 		if(!user){
@@ -136,7 +158,7 @@ router.post('/register',function(req,res,next){
 
 router.get('/logout',function(req,res,next){
 
-	req.logout;
+	req.logout();
 	req.flash('success','You have been logged out');
 	res.redirect('/');
 

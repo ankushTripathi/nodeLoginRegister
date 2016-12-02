@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //handle file uploads
 app.use(multer({
-  dest: path.join(__dirname, 'public/upload/temp')
+  dest: path.join(__dirname, 'public/upload')
 }).any());
 
 //handle sessions
