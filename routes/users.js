@@ -6,29 +6,13 @@ var router = express.Router();
 
 /* GET users listing. */
 
-router.use(function UserState(req,res,next){
-  if(req.isAuthenticated()){
-  	if(req.path === '/'||req.path === '/logout')
-  		next();
-  	else
-  		res.redirect('/');
-  }
-  else
-  	{
-  	if(req.path === '/'||req.path === '/logout')
-  	{
-  		req.flash('error','you are not logged in');
-  		res.redirect('/');
-  	}
-  	else
-  		next();
-	}
-});
-
 router.get('/',function(req, res, next) {
-
-	res.end("hello User");
-
+	if(req.isLoggedIn)
+	{
+		res.render('index',{title:'Members Area',isLoggedIn:true,username:req.user.username,email:req.user.email});
+	}
+	else
+		res.redirect('/');
 });
 
 router.get('/register',function(req,res,next){
@@ -97,7 +81,7 @@ router.post('/register',function(req,res,next){
 
 	var username = req.body.username;
 	var email = req.body.email;
-	var password1 = req.body.password1;
+	var password1 = req.body.password1; 
 	var password2 = req.body.password2;
 
 	//form validation
@@ -105,6 +89,7 @@ router.post('/register',function(req,res,next){
 	req.checkBody('email',' valid email is required').notEmpty().isEmail();
 	req.checkBody('password1','password is required').notEmpty();
 	req.checkBody('password2','passwords should match').equals(req.body.password1);
+
 
 	if(req.files[0].fieldname === "profileimage"){
 		var profileImageName = req.files[0].originalname;

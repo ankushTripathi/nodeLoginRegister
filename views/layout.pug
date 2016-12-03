@@ -18,21 +18,32 @@ html(lang='en')
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') Members Area
+          a.navbar-brand(href='/users') Members Area
         #navbar.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li(class = (title == 'Home' ? 'active':''))
-              a(href='/') Home
-            li(class = (title == 'Register' ? 'active':''))
-              a(href='/users/register') Register
-            li(class = (title == 'Login' ? 'active':''))
-              a(href='/users/login') Login
-          ul.nav.navbar-nav.navbar-right
-            li
-              a(href='/users/logout') Logout
+          if isLoggedIn
+            ul.nav.navbar-nav
+              li(class = (title == 'Home' ? 'active':''))
+                a(href='/users') Home
+            ul.nav.navbar-nav.navbar-right
+              li
+                a(href='/users/logout') Logout
+          else
+             ul.nav.navbar-nav
+              li(class = (title == 'Home' ? 'active':''))
+                a(href='/') Home
+              li(class = (title == 'Register' ? 'active':''))
+                a(href='/users/register') Register
+              li(class = (title == 'Login' ? 'active':''))
+                a(href='/users/login') Login
+
         // /.nav-collapse
     .container
       .start
+        unless isLoggedIn
+          unless title == 'Login' || title == 'Register'
+            ul.info
+              li 
+                Welcome please sign in or register..
         .container
           != messages()
           block content

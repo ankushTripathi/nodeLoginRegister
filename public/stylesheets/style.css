@@ -12,7 +12,7 @@ a {
   text-align: center;
 }
 
-ul.success li, ul.error li{
+ul.success li, ul.info li, ul.error li{
 	margin:10px;
 	padding:10px;
 	text-align: center;
@@ -29,4 +29,9 @@ ul.success li{
 ul.error li{
 	color: #474845;
 	background-color: #f74d4d;
+}
+
+ul.info li{
+	color: #474845;
+	background-color: #a3bcff;
 }

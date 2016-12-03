@@ -1,5 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  if isLoggedIn
+    h1 Hello #{username}
+    p Welcome to #{title}
+    p.lead  #{email}
+  else
+    h1 Hello User
+    p Welcome to #{title}

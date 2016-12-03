@@ -73,6 +73,29 @@ app.use(function(req,res,next){
 	next();
 });
 
+var isLoggedIn = function(req,res,next){
+  if(req.isAuthenticated()){
+      req.isLoggedIn = true;
+      if(req.path === '/' || req.path === '/users' || req.path === '/users/logout')
+        next();
+      else
+        req.flash('error','already logged in');
+        res.redirect('/');
+  }
+  else{
+    req.isLoggedIn = false;
+    if(req.path === '/users' || req.path === '/users/logout'){
+      req.flash('error','you are not loggeed in');
+      res.redirect('/'); 
+    }
+    else
+        next();
+  }
+}
+
+app.use(isLoggedIn);
+
+
 app.use('/', index);
 app.use('/users', users);
 
