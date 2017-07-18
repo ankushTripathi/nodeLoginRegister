@@ -91,7 +91,7 @@ router.post('/register',function(req,res,next){
 	req.checkBody('password2','passwords should match').equals(req.body.password1);
 
 
-	if(req.files[0].fieldname === "profileimage"){
+	if(typeof req.files[0]!== 'undefined' && req.files[0]){
 		var profileImageName = req.files[0].originalname;
 	}else
 		var profileImageName = 'noimage.jpg';
